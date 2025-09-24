@@ -13,6 +13,13 @@
       "sizes": "any",
       "type": "image/svg+xml"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "/BreathFlow/screenshot.png",
+      "sizes": "412x905",
+      "type": "image/png"
+    }
   ]
 }
 
