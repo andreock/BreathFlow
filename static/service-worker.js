@@ -1,8 +1,8 @@
 const CACHE_NAME = 'breathflow-cache-v1';
 const urlsToCache = [
-  '/',
-  '/manifest.webmanifest',
-  '/favicon.svg',
+  '/BreathFlow/',
+  '/BreathFlow/manifest.webmanifest',
+  '/BreathFlow/favicon.svg',
 ];
 
 self.addEventListener('install', event => {
