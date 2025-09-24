@@ -2,6 +2,7 @@
 	import { Navbar, NavBrand, Button } from "flowbite-svelte";
 	import BallAnimation from '$lib/BallAnimation.svelte';
 	import NumberPicker from '$lib/NumberPicker.svelte';
+	import { resolve } from '$app/paths';
 
 	let start_animation = $state(false);
 	let scale_in = $state(1);
@@ -13,7 +14,7 @@
 <div class="flex flex-col gap-4">
 
 <Navbar class="bg-primary-500 dark:bg-primary-700">
-	<NavBrand href="/" class="flex text-center justify-center items-center">
+	<NavBrand href={resolve("/")} class="flex text-center justify-center items-center">
 		<p class="text-xl font-semibold whitespace-nowrap text-white">BreathFlow</p>
 	</NavBrand>
 </Navbar>
