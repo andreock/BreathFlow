@@ -7,3 +7,13 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# neovim files
+.repro/
+
+# GitHub files
+.github/
+
+# Mobile app
+android/
+ios/
