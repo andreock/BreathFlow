@@ -14,11 +14,25 @@
 
 	let selected = $state('');
 
-	const options = [
+	const sounds = [
 		// { value: 'respiro', name: 'Respiro', src: resolve('/audio/breath.mp3'), ref: null },
 		{ value: 'oceano', name: 'Oceano', src: resolve('/audio/ocean.mp3'), ref: null },
 		{ value: 'piano', name: 'Piano', src: resolve('/audio/piano.mp3'), ref: null }
 	];
+
+	const tempi = [{ value: '4-4-4-4', name: '4-4-4-4' }];
+
+	let selected_time = $state('');
+
+	$effect(() => {
+		let time_split = selected_time.split('-');
+		if (time_split.length < 4) return;
+
+		scale_in = +time_split[0];
+		scale_wait1 = +time_split[1];
+		scale_out = +time_split[2];
+		scale_wait2 = +time_split[3];
+	});
 
 	let exercise_duration: number = $state(1);
 
@@ -28,7 +42,7 @@
 			return;
 		}
 		start_animation = true;
-		const option = options.find((o) => o.value === selected);
+		const option = sounds.find((o) => o.value === selected);
 		if (option && option.ref) {
 			option.ref.currentTime = 0;
 			option.ref.play();
@@ -47,7 +61,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col justify-center gap-4">
 	<Navbar class="bg-primary-500 dark:bg-primary-700">
 		<NavBrand href={resolve('/')} class="flex items-center justify-center text-center">
 			<p class="text-xl font-semibold whitespace-nowrap text-white">BreathFlow</p>
@@ -58,7 +72,7 @@
 		<Alert color="green">Sto interrompendo l'esercizio...</Alert>
 	{/if}
 
-	<div class="mt-12 mb-12">
+	<div class="mt-22">
 		<BallAnimation
 			scale_in={scale_in * 1000}
 			scale_wait1={scale_wait1 * 1000}
@@ -71,6 +85,14 @@
 		/>
 	</div>
 
+	<div class="mr-3 ml-3">
+		<Select
+			bind:value={selected_time}
+			placeholder="Scegli un preset oppure imposta un tempo"
+			items={tempi}
+			disabled={start_animation}
+		/>
+	</div>
 	<div class="flex">
 		<NumberPicker bind:quantity={scale_in} disabled={start_animation} />
 		<NumberPicker bind:quantity={scale_wait1} disabled={start_animation} />
@@ -82,7 +104,7 @@
 		<Select
 			bind:value={selected}
 			placeholder="Scegli un suono"
-			items={options}
+			items={sounds}
 			disabled={start_animation}
 		/>
 	</div>
@@ -96,7 +118,7 @@
 		{start_animation && !stop_requested ? 'Stop' : 'Start'}
 	</Button>
 
-	{#each options as option}
+	{#each sounds as option}
 		<audio src={option.src} loop bind:this={option.ref}></audio>
 	{/each}
 </div>

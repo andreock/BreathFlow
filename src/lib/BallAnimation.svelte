@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { tweened } from 'svelte/motion';
+	import { delay } from '$lib';
+	import Timer from './Timer.svelte';
 
 	let {
 		scale_in,
@@ -13,9 +15,6 @@
 	} = $props();
 
 	const scale = tweened(1);
-	function delay(ms: number) {
-		return new Promise((resolve) => setTimeout(resolve, ms));
-	}
 
 	function check_stop() {
 		if (stop_requested) {
@@ -24,6 +23,9 @@
 		}
 		return false;
 	}
+
+	let time_for_timer = $state(0);
+	let run_timer = $state(false);
 
 	async function animateBall(first_run: boolean) {
 		if (first_run) {
@@ -34,14 +36,22 @@
 		await scale.set(2, { duration: scale_in });
 		if (check_stop()) return;
 
+		// Wait
+		time_for_timer = scale_wait1;
+		run_timer = true;
 		await delay(scale_wait1);
+		run_timer = false;
 		if (check_stop()) return;
 
 		// Sgonfia
 		await scale.set(1, { duration: scale_out });
 		if (check_stop()) return;
 
+		// Wait
+		time_for_timer = scale_wait2;
+		run_timer = true;
 		await delay(scale_wait2);
+		run_timer = false;
 		if (check_stop()) return;
 
 		if (!stop_requested) {
@@ -68,6 +78,15 @@
 						shadow-lg transition-shadow duration-300"
 	style="transform: scale({$scale});"
 ></div>
+
+<br />
+<div class="mt-8 flex justify-center">
+	{#if run_timer}
+		<Timer timer={time_for_timer} />
+	{:else}
+		<div class="h-12 w-12"></div>
+	{/if}
+</div>
 
 <style>
 	.polish_effect {
