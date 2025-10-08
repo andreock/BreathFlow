@@ -1,29 +1,29 @@
-const CACHE_NAME = 'breathflow-cache-v1.1';
+const CACHE_NAME = 'breathflow-cache-v1.2';
 const urlsToCache = [
-  '/BreathFlow/',
-  '/BreathFlow/manifest.webmanifest',
-  '/BreathFlow/favicon.svg',
-  '/BreathFlow/audio/breath.mp3',
-  '/BreathFlow/audio/ocean.mp3',
-  '/BreathFlow/audio/piano.mp3',
+    '/BreathFlow/',
+    '/BreathFlow/manifest.webmanifest',
+    '/BreathFlow/favicon.svg',
+    '/BreathFlow/audio/breath.mp3',
+    '/BreathFlow/audio/ocean.mp3',
+    '/BreathFlow/audio/piano.mp3',
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-  );
+    event.waitUntil(
+        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+    );
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-    ))
-  );
+    event.waitUntil(
+        caches.keys().then(keys => Promise.all(
+            keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+        ))
+    );
 });
 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
+    event.respondWith(
+        caches.match(event.request).then(response => response || fetch(event.request))
+    );
 });

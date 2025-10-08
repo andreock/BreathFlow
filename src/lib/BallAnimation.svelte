@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { tweened } from 'svelte/motion';
-	import { cubicOut } from 'svelte/easing';
 
 	let {
 		scale_in,
@@ -13,35 +12,49 @@
 		duration
 	} = $props();
 
-	let total_duration = scale_in + scale_wait1 + scale_out + scale_wait2;
-	const scale = tweened(1, { duration: 4000, easing: cubicOut });
-
-	async function animateBall() {
-		// Gonfia
-		await scale.set(2, { duration: scale_in, easing: cubicOut });
-
-		// Ferma
-		await scale.set(2, { duration: scale_wait1 });
-
-		// Sgonfia
-		await scale.set(1, { duration: scale_out, easing: cubicOut });
-
-		// Ferma
-		await scale.set(1, { duration: scale_wait2 });
+	const scale = tweened(1);
+	function delay(ms: number) {
+		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 
-	let task_id: Timeout | null = null;
+	function check_stop() {
+		if (stop_requested) {
+			finish();
+			return true;
+		}
+		return false;
+	}
+
+	async function animateBall(first_run: boolean) {
+		if (first_run) {
+			await scale.set(1);
+		}
+
+		// Gonfia
+		await scale.set(2, { duration: scale_in });
+		if (check_stop()) return;
+
+		await delay(scale_wait1);
+		if (check_stop()) return;
+
+		// Sgonfia
+		await scale.set(1, { duration: scale_out });
+		if (check_stop()) return;
+
+		await delay(scale_wait2);
+		if (check_stop()) return;
+
+		if (!stop_requested) {
+			animateBall(false);
+		}
+	}
+
 	function animate_wrapper() {
-		animateBall(); // Start immediately
-		task_id = setInterval(async () => {
-			if (duration <= 0 || stop_requested) {
-				finish();
-				clearInterval(task_id);
-				return;
-			}
-			duration -= total_duration;
-			await animateBall();
-		}, total_duration);
+		animateBall(true); // Start immediately
+		setTimeout(() => {
+			stop_requested = true;
+		}, duration - 1000); // Request stop 1 second before the end to be safe
+
 		return ''; // Avoid return in the UI
 	}
 </script>

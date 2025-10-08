@@ -12,9 +12,9 @@
 				type="number"
 				id="quantity-input"
 				aria-describedby="helper-text-explanation"
-				placeholder="0"
+				placeholder="1"
 				required
-				min="0"
+				min="1"
 				class="w-20 text-center"
 			/>
 		</ButtonGroup>

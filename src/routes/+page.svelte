@@ -20,7 +20,7 @@
 		{ value: 'piano', name: 'Piano', src: resolve('/audio/piano.mp3'), ref: null }
 	];
 
-	let exercise_duration: number = $state(0);
+	let exercise_duration: number = $state(1);
 
 	function start_animation_func() {
 		if (start_animation) {
