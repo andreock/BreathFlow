@@ -52,7 +52,7 @@
 	function finish_animation() {
 		start_animation = false;
 		stop_requested = false;
-		options.forEach((option) => {
+		sounds.forEach((option) => {
 			if (option.ref) {
 				option.ref.pause();
 				option.ref.currentTime = 0;
