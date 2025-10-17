@@ -1,0 +1,30 @@
+{
+  "name": "BreathFlow",
+  "short_name": "BreathFlow",
+  "description": "App per la respirazione guidata",
+  "start_url": "/BreathFlow",
+  "display": "standalone",
+  "background_color": "#0a2540",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait",
+  "icons": [
+       {
+         "src": "/BreathFlow/icon-192x192.png",
+         "sizes": "192x192",
+         "type": "image/png"
+       },
+       {
+         "src": "/BreathFlow/icon-512x512.png",
+         "sizes": "512x512",
+         "type": "image/png"
+       }
+  ],
+  "screenshots": [
+    {
+      "src": "/BreathFlow/screenshot.png",
+      "sizes": "412x905",
+      "type": "image/png"
+    }
+  ]
+}
+
